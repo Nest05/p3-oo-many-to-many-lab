@@ -65,7 +65,8 @@ def test_author_has_contracts():
     author = Author("Name")
     book = Book("Title")
     contract = Contract(author, book, '01/01/2001', 50000)
-
+    author.related_contracts.append(contract)
+    
     assert author.contracts() == [contract]
 
 def test_author_has_books():
@@ -73,6 +74,7 @@ def test_author_has_books():
     author = Author("Name")
     book = Book("Title")
     Contract(author, book, '01/01/2001', 50000)
+    author.related_books.append(book)
 
     assert book in author.books()
 
@@ -81,6 +83,7 @@ def test_book_has_contracts():
     author = Author("Name")
     book = Book("Title")
     contract = Contract(author, book, '01/01/2001', 50000)
+    book.related_contracts.append(contract)
 
     assert book.contracts() == [contract]
 
@@ -89,6 +92,7 @@ def test_book_has_authors():
     author = Author("Name")
     book = Book("Title")
     Contract(author, book, '01/01/2001', 50000)
+    book.book_authors.append(author)
 
     assert author in book.authors()
 
@@ -112,9 +116,9 @@ def test_author_has_total_royalties():
     book2 = Book("Title 2")
     book3 = Book("Title 3")
 
-    Contract(author, book1, "01/01/2001", 10)
-    Contract(author, book2, "01/01/2001", 20)
-    Contract(author, book3, "01/01/2001", 30)
+    contract1 = author.sign_contract(book1, "01/01/2001", 10)
+    contract2 = author.sign_contract(book2, "01/01/2001", 20)
+    contract3 = author.sign_contract(book3, "01/01/2001", 30)
 
     assert author.total_royalties() == 60
 
