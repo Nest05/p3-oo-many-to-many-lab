@@ -55,7 +55,12 @@ class Contract:
         self.date = date
         self.royalties = royalties
         self.members.append(self)  # add the instance to the members list
-
+    def get_unique_identifier(self):
+        # Return a unique identifier for the contract
+        return self.date
+    
     @classmethod
     def contracts_by_date(cls, date):
-        return [contract for contract in cls.members if contract.date == date]
+        contracts = [contract for contract in cls.members if contract.date == date]
+        sorted_contracts = sorted(contracts, key=lambda contract: contract.get_unique_identifier())
+        return sorted_contracts
